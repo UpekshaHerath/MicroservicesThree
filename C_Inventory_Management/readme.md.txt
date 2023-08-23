@@ -1,1 +1,0 @@
-This microservice is relevent to inventory management
