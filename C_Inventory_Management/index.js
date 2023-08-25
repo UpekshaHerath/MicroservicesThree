@@ -1,36 +1,22 @@
 const express = require("express");
 const cors = require("cors");
-const Product = require("./config");
+const firebase = require("firebase");
+const firebaseConfig = require("./config");
+
 const app = express();
 app.use(express.json());
 app.use(cors());
+require('dotenv').config();
 
-const port = 3000;
+// firebase configurations
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore(); // created the firestore
+module.exports = db;
 
-app.get("/", async (req, res) => {
-    const snapshot = await Product.get();
-    const list = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-    res.send(list);
-});
+const port = process.env.PORT || 3000;
 
-app.post("/create", async (req, res) => {
-    const data = req.body;
-    await Product.add({ data });
-    res.send({ msg: "User Added" });
-});
-
-app.post("/update", async (req, res) => {
-    const id = req.body.id;
-    delete req.body.id;
-    const data = req.body;
-    await Product.doc(id).update(data);
-    res.send({ msg: "Updated" });
-});
-
-app.delete("/delete", async (req, res) => {
-    const id = req.body.id;
-    await Product.doc(id).delete();
-    res.send({ msg: "Deleted" });
-});
+// routes
+const product = require('./routers/ProductRouter');
+app.use('/product', product); // map the product router to the products
 
 app.listen(port, () => console.log(`Running on port ${port}`));
