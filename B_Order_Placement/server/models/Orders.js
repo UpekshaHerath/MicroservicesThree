@@ -8,19 +8,19 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
         allowNull: false,
       },
-      userid: {
-        type: DataTypes.INTEGER,
-      },
-      productid: {
-        type: DataTypes.INTEGER,
-      },
+      // userid: {
+      //   type: DataTypes.INTEGER,
+      // },
+      // productid: {
+      //   type: DataTypes.INTEGER,
+      // },
       weight: {
-        type: DataTypes.REAL,
+        type: DataTypes.FLOAT,
       },
       price: {
-        type: DataTypes.REAL,
+        type: DataTypes.FLOAT,
       },
-      orderstatus: {
+      order_status: {
         type: DataTypes.ENUM("placed", "shipped", "delivered", "cancelled"),
       },
     },

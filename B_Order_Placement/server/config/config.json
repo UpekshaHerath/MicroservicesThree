@@ -2,7 +2,7 @@
   "development": {
     "username": "root",
     "password": "root",
-    "database": "orders",
+    "database": "orderdb",
     "host": "localhost",
     "dialect": "mysql"
   }
