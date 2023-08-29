@@ -1,0 +1,9 @@
+{
+  "development": {
+    "username": "root",
+    "password": "root",
+    "database": "orderdb",
+    "host": "localhost",
+    "dialect": "mysql"
+  }
+}
