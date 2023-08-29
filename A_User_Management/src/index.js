@@ -18,20 +18,6 @@ mongoose
     console.log("connected with database");
   });
 
-// async function run() {
-//   try {
-//     const newcustomer = await Customer.create({
-//       Name: "malithi",
-//       Address: "Ampara,mahaoya",
-//       Nic: "123456789",
-//     });
-
-//     console.log(newcustomer);
-//   } catch (error) {
-//     console.log(error.message);
-//   }
-// }
-
 app.post("/customerdata", async (req, res) => {
   const info = new Customer({
     Name: req.body.Name,
@@ -50,51 +36,49 @@ app.post("/customerdata", async (req, res) => {
 app.get("/", async (req, res) => {
   try {
     const customer = await Customer.find();
-    // run();
+
     res.json(customer);
   } catch (err) {
     res.send("Error" + err);
   }
 });
 
-// app.listen(port, () => {
-//   console.log(`Example app listening on port ${port}`);
-// });
+app.delete("/customerdata", async (req, res) => {
+  const deleteNic = req.query.Nic;
 
-
-app.delete('/customerdata', async(req, res) => {
-    const deleteNic = req.query.Nic;
-
-    try {
-        const result = await Customer.deleteMany({ Nic: deleteNic });
-        if (result.deletedCount > 0) {
-            res.send(`Deleted customer with NIC: ${deleteNic}`);
-        } else {
-            res.send(`Customer with NIC ${deleteNic} not found.`);
-        }
-    } catch (error) {
-        res.send("Error");
+  try {
+    const result = await Customer.deleteMany({ Nic: deleteNic });
+    if (result.deletedCount > 0) {
+      res.send(`Deleted customer with NIC: ${deleteNic}`);
+    } else {
+      res.send(`Customer with NIC ${deleteNic} not found.`);
     }
+  } catch (error) {
+    res.send("Error");
+  }
 });
 
+app.put("/customerdata/:Nic", async (req, res) => {
+  const nicToUpdate = req.params.Nic;
+  const newName = req.body.Name;
 
-app.put('/customerdata/:Nic', async (req, res) => {
-    const nicToUpdate = req.params.Nic;
-    const newName = req.body.Name; 
+  try {
+    const updatedCustomer = await Customer.findOneAndUpdate(
+      { Nic: nicToUpdate },
+      { $set: { Name: newName } },
+      { new: true }
+    );
 
-    try {
-        const updatedCustomer = await Customer.findOneAndUpdate(
-            { Nic: nicToUpdate },
-            { $set: { Name: newName } },
-            { new: true } 
-        );
-
-        if (updatedCustomer) {
-            res.json(updatedCustomer);
-        } else {
-            res.send(`Customer with NIC ${nicToUpdate} not found.`);
-        }
-    } catch (error) {
-        res.send("Error");
+    if (updatedCustomer) {
+      res.json(updatedCustomer);
+    } else {
+      res.send(`Customer with NIC ${nicToUpdate} not found.`);
     }
+  } catch (error) {
+    res.send("Error");
+  }
+});
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`);
 });
