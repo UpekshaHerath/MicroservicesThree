@@ -12,7 +12,7 @@ router.get("/", async (req, res) => {
     res.json(listOfOrders);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Failed to retireve orders" });
+    res.status(500).json({ error: "Failed to retrieve orders" });
   }
 });
 
