@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 // get customers
-router.get("/user", async (req, res) => {
+router.get("/", async (req, res) => {
     try {
         const user = await User.find();
         res.json(user);
@@ -12,7 +12,7 @@ router.get("/user", async (req, res) => {
 });
 
 // create a new customer
-router.post("/user", async (req, res) => {
+router.post("/", async (req, res) => {
     const info = new User({
         Name: req.body.Name,
         Address: req.body.Address,
@@ -27,7 +27,7 @@ router.post("/user", async (req, res) => {
 });
 
 // delete a user
-router.delete("/user", async (req, res) => {
+router.delete("/", async (req, res) => {
     const deleteNic = req.query.Nic;
 
     try {
@@ -43,7 +43,7 @@ router.delete("/user", async (req, res) => {
 });
 
 // update the detailes of a user
-router.put("/user/:Nic", async (req, res) => {
+router.put("/:Nic", async (req, res) => {
     const nicToUpdate = req.params.Nic;
     const newName = req.body.Name;
 

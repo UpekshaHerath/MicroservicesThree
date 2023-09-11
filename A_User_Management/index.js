@@ -18,7 +18,7 @@ mongoose.connect("mongodb+srv://upeksha:22058abcd@cluster0.14ytvct.mongodb.net/"
 
 // routes
 const userRouter = require('./src/routes/userRoute');
-app.use('/users', userRouter);
+app.use('/user', userRouter);
 
 
 app.listen(port, () => {
