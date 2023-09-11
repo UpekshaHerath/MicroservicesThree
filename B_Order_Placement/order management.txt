@@ -1,1 +1,0 @@
-Microservice which handles order management detailes
