@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cda113ff-65b7-4140-af5e-11074a55a744" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/routers/ProductRouter.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,6 +33,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2021.3\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -51,7 +47,9 @@
       <workItem from="1692809372823" duration="4196000" />
       <workItem from="1692856536980" duration="1255000" />
       <workItem from="1692883540528" duration="5815000" />
-      <workItem from="1692933182948" duration="6444000" />
+      <workItem from="1692933182948" duration="7399000" />
+      <workItem from="1692963879008" duration="1247000" />
+      <workItem from="1693133109476" duration="9000" />
     </task>
     <servers />
   </component>
