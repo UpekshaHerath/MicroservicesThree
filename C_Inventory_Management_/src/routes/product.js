@@ -1,15 +1,25 @@
 const express = require('express');
 const router = express.Router();
-const noteController = require('../Controller/productController');
+const productController = require('../Controller/productController');
 
-router.post("/", noteController.createNote)
+router.post("/orderPrice", productController.calculatePriceOfOrder);
 
-router.get("/", noteController.getAllNotes)
+router.post("/", productController.createItem);
 
-router.get("/:id", noteController.getOneNote) // pass the id as a parameter
+router.get("/", productController.getAllItems);
 
-router.put("/:id", noteController.updateOneNote);
+router.post("/checkProductAmount", productController.checkProductAmount);
 
-router.delete("/:id", noteController.deleteOneNote)
+router.get("/:id", productController.getOneItem); // pass the id as a parameter
+
+router.put("/:id", productController.updateOneItem);
+
+router.delete("/:id", productController.deleteOneItem);
+
+router.get("/isPresent/:id", productController.checkProductPresent);
+
+router.patch("/itemCount", productController.updateItemCount);
+
+
 
 module.exports = router;
