@@ -6,6 +6,9 @@ const db = require("./models");
 
 app.use(express.json());
 
+/**
+ * Automatically create the database tables
+ */
 db.sequelize.sync().then(() => {
   app.listen(5000, () => {
     console.log("server running on port 5000");
