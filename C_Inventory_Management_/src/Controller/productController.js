@@ -42,8 +42,8 @@ exports.getAllItems = async(req,res) => {
 exports.getOneItem = async(req,res) => {
     try {
         const { id } = req.params;
-        const oneNote =  await pool.query(`SELECT * FROM inventory WHERE product_id = ${id}`);
-        res.json(oneNote.rows[0]);
+        const oneItem =  await pool.query(`SELECT * FROM inventory WHERE product_id = ${id}`);
+        res.json(oneItem.rows[0]);
     } catch (err) {
         console.error(err.message);
         res.json({ message: false });
@@ -60,13 +60,43 @@ exports.updateOneItem = async(req, res) => {
     try {
         const { id } = req.params;
         const { product_name, product_price, product_count } = req.body;
-        const updatedNote = await pool.query("UPDATE inventory SET product_name = $1, product_price = $2, product_count = $3 WHERE product_id= $4", [product_name, product_price, product_count, id])
+        const updateItem = await pool.query("UPDATE inventory SET product_name = $1, product_price = $2, product_count = $3 WHERE product_id= $4", [product_name, product_price, product_count, id])
         res.json({ message: 'Product updated successfully' });
     } catch (err) {
         console.error(err.message);
         res.json({ message: 'Error while updating product' });
     }
 };
+
+/**
+ * Update a product partially
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
+exports.updateOneItemPartially = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { product_name, product_price, product_count } = req.body;
+
+        // Update the product details if provided in the request
+        if (product_name !== undefined) {
+            await pool.query(`UPDATE inventory SET product_name = ${product_name} WHERE product_id= ${id}`);
+        }
+        if (product_price !== undefined) {
+            const result = await pool.query(`UPDATE inventory SET product_price = ${product_price} WHERE product_id= ${id}`);
+            console.log(result);
+        }
+        if (product_count !== undefined) {
+            await pool.query(`UPDATE inventory SET product_count = ${product_count} WHERE product_id= ${id}`);
+        }
+        const oneItem =  await pool.query(`SELECT * FROM inventory WHERE product_id = ${id}`);
+        res.json(oneItem.rows[0]);
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ message: 'Error while updating one attribute in a product' });
+    }
+}
 
 /**
  * Delete a product
