@@ -181,7 +181,7 @@ router.put("/", async (req, res) => {
 });
 
 /**
- * cansel an order
+ * Cancel an order
  */
 router.delete("/:id", async (req, res) => {
   try {
