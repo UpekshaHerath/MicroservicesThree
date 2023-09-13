@@ -191,6 +191,12 @@ exports.updateItemCount = async (req, res) => {
     }
 }
 
+/**
+ * Calculate the price of orders
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 exports.calculatePriceOfOrder = async (req, res) => {
     try {
         const { product_id, order_product_count } = req.body;
