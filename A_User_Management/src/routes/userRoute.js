@@ -98,14 +98,14 @@ router.put("/:Nic", async (req, res) => {
     const address = req.body.Address;
 
     try {
-        const updatedCustomer = await User.findOneAndUpdate(
+        const updatedUser = await User.findOneAndUpdate(
             { Nic: nicToUpdate },
             { $set: { Name: newName, Address: address } },
             { new: true }
         );
 
-        if (updatedCustomer) {
-            res.json(updatedCustomer);
+        if (updatedUser) {
+            res.json(updatedUser);
         } else {
             res.send(`Customer with NIC ${nicToUpdate} not found.`);
         }
