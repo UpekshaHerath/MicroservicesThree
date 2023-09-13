@@ -4,6 +4,9 @@ const router = express.Router();
 const { Orders } = require("../models");
 const { Op, Sequelize } = require("sequelize");
 
+const baseURL_user = "http://localhost:3000/user";
+const baseURL_product = "http://localhost:4000/products";
+
 /**
  * Get all orders
  */
@@ -41,10 +44,10 @@ router.post("/", async (req, res) => {
     const { weight, item_count, order_status, user_id, product_id } = req.body;
 
     // find whether this user is available
-    const userResponse = await axios.get(`http://localhost:3000/user/present/${user_id}`);
+    const userResponse = await axios.get(`${baseURL_user}/present/${user_id}`);
 
     // find whether this product is available
-    const itemResponse = await axios.get(`http://localhost:4000/products/isPresent/${product_id}`);
+    const itemResponse = await axios.get(`${baseURL_product}/isPresent/${product_id}`);
 
     const countCheckingData = {
       "product_id": product_id,
@@ -52,12 +55,11 @@ router.post("/", async (req, res) => {
     }
 
     // calculate order price
-    const orderPriceResponse = await axios.post(`http://localhost:4000/products/orderPrice`, countCheckingData);
+    const orderPriceResponse = await axios.post(`${baseURL_product}/orderPrice`, countCheckingData);
     const price = orderPriceResponse.data.orderPrice;
-    console.log("3");
 
     // find whether the count of products is already present
-    const productCountResponse = await axios.post(`http://localhost:4000/products/checkProductAmount`, countCheckingData);
+    const productCountResponse = await axios.post(`${baseURL_product}/checkProductAmount`, countCheckingData);
     const isProductCountEnough = productCountResponse.data.isProductCountEnough;
 
     // const productResponse
@@ -65,7 +67,7 @@ router.post("/", async (req, res) => {
       if (itemResponse.data.isPresent) {
         if (isProductCountEnough) {
           // reduce the item count from the inventory
-          const productCountUpdateResponse = await axios.patch(`http://localhost:4000/products/itemCount`, countCheckingData);
+          const productCountUpdateResponse = await axios.patch(`${baseURL_product}/itemCount`, countCheckingData);
           if (productCountUpdateResponse.data.isUpdated) {
             // place the order
             const newOrder = await Orders.create({
@@ -103,21 +105,27 @@ router.put("/", async (req, res) => {
     const { order_id, weight, item_count, order_status, user_id, product_id } = req.body;
 
     // find whether this user is available
-    const userResponse = await axios.get(`http://localhost:3000/user/present/${user_id}`);
+    const userResponse = await axios.get(`${baseURL_user}/present/${user_id}`);
 
     // find whether this product is available
-    const itemResponse = await axios.get(`http://localhost:4000/products/isPresent/${product_id}`);
+    const itemResponse = await axios.get(`${baseURL_product}/isPresent/${product_id}`);
 
     // get this order to update the product count
-    const orderBeforeChanging = await axios.get(`http://localhost:5000/orders/${order_id}`);
-    const productBeforeChanging = await axios.get(`http://localhost:4000/products/${product_id}`);
-    if (orderBeforeChanging.data.product_id == product_id) {
+    const order = await Orders.findOne({
+      where: {
+        order_id: order_id
+      },
+    });
+
+    // get this order to update the product count
+    const productBeforeChanging = await axios.get(`${baseURL_product}/${product_id}`);
+    if (order.dataValues.item_count == product_id) {
       // add the productCount in the previous order
-      const previousProductCount = orderBeforeChanging.data.item_count;
+      const previousProductCount = order.dataValues.item_count;
       const currentProductCount = productBeforeChanging.data.product_count;
       const newCorrectProductCount = previousProductCount + currentProductCount;
       // update the product count
-      const canselTheOrder = await axios.patch(`http://localhost:4000/products/${product_id}`, {
+      const canselTheOrder = await axios.patch(`${baseURL_product}/${product_id}`, {
         "product_count": newCorrectProductCount
       })
     }
@@ -128,11 +136,11 @@ router.put("/", async (req, res) => {
     }
 
     // calculate order price
-    const orderPriceResponse = await axios.post(`http://localhost:4000/products/orderPrice`, countCheckingData);
+    const orderPriceResponse = await axios.post(`${baseURL_product}/orderPrice`, countCheckingData);
     const price = orderPriceResponse.data.orderPrice;
 
     // find whether the count of products is already present
-    const productCountResponse = await axios.post(`http://localhost:4000/products/checkProductAmount`, countCheckingData);
+    const productCountResponse = await axios.post(`${baseURL_product}/checkProductAmount`, countCheckingData);
     const isProductCountEnough = productCountResponse.data.isProductCountEnough;
 
     // const productResponse
@@ -140,7 +148,7 @@ router.put("/", async (req, res) => {
       if (itemResponse.data.isPresent) {
         if (isProductCountEnough) {
           // reduce the item count from the inventory
-          const productCountUpdateResponse = await axios.patch(`http://localhost:4000/products/itemCount`, countCheckingData);
+          const productCountUpdateResponse = await axios.patch(`${baseURL_product}/itemCount`, countCheckingData);
           if (productCountUpdateResponse.data.isUpdated) {
             // place the order
             const updateOrder = await Orders.update(
@@ -153,7 +161,7 @@ router.put("/", async (req, res) => {
                 },
                 { where: { order_id: order_id } }
             );
-            res.status(201).json(updateOrder);
+            res.status(201).json({message: "Order updated successfully"});
           } else {
             res.status(500).json({ message: "Error while updating the product count" });
           }
@@ -185,28 +193,24 @@ router.delete("/:id", async (req, res) => {
         order_id: id
       },
     });
-
-    const productBeforeChanging = await axios.get(`http://localhost:4000/products/${order.dataValues.product_id}`);
+    const productBeforeChanging = await axios.get(`${baseURL_product}/${order.dataValues.product_id}`);
 
     // add the productCount in the previous order
     const previousProductCount = order.dataValues.item_count;
     const currentProductCount = productBeforeChanging.data.product_count;
     const newCorrectProductCount = previousProductCount + currentProductCount;
+
     // update the product count
-    const canselTheOrder = await axios.patch(`http://localhost:4000/products/${order.dataValues.product_id}`, {
+    const canselTheOrder = await axios.patch(`${baseURL_product}/${order.dataValues.product_id}`, {
       "product_count": newCorrectProductCount
     })
 
-    const orderDat = await Orders.findOne({ where: {
-          order_id: id
-        },});
-
     const marks = await Orders.destroy({ where: { order_id: id } });
 
-    res.json({ message: "Order removed successfully" });
+    res.json({ message: "Order canceled successfully" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Failed to remove order" });
+    res.status(500).json({ error: "Failed to cancel order" });
   }
 });
 
