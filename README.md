@@ -19,7 +19,7 @@ When an order requires updating, the same method for checking user and product v
 
 In the event of order cancellation, the order record is deleted, and the number of products in the InventoryManagement database is reduced through an API call to the C_Inventory_Management_ microservice.
 
-## User_Management Microservice
+## User Management Microservice
 ### Overview 
 The User Management microservice is responsible for managing user data, including user profiles, authentication, and user-related operations. It provides RESTful API endpoints for creating, retrieving, updating, and deleting user information. 
 ### Technologies Used 
