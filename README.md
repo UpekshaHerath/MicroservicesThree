@@ -17,7 +17,7 @@ When an order requires updating, the same method for checking user and product v
 
 In the event of order cancellation, the order record is deleted, and the number of products in the InventoryManagement database is reduced through an API call to the C_Inventory_Management_ microservice.
 
-## User_Management microservice
+## User_Management Microservice
 ### Overview 
 The User Management microservice is responsible for managing user data, including user profiles, authentication, and user-related operations. It provides RESTful API endpoints for creating, retrieving, updating, and deleting user information. 
 ### Technologies Used 
@@ -31,7 +31,7 @@ Install Node.js and NPM.
 Could you create a MongoDB database in MongoDB Atlas and get the connection URL.  
 Create a .env file in the project root directory to store environment variables like the MongoDB connection URL and the port number. 
 
-## Order Placement microservice
+## Order Placement Microservice
 ### Overview 
 The Order Placement microservice is responsible for managing order data, including order handling, and order-related operations. It provides RESTful API endpoints for creating, reading, updating, and deleting order information. 
 ### Technologies Used 
@@ -46,7 +46,13 @@ Create a MySQL database.
 
 ## Inventory Management Microservice
 ### Overview 
-
 The Inventory Management microservice is responsible for managing inventory data and inventory -related operations. It provides RESTful API endpoints for creating, retrieving, updating, and deleting inventory information. 
-
- 
+### Technologies Used 
+Node.js with Express.js - The server-side runtime environment and web application framework. 
+PostgreSQL - Powerful, open-source object-relational database system that uses and extends the SQL language combined with many features that safely store and scale the most complicated data workloads. 
+### Setting Up the Environment 
+The Inventory Management microservice is built using Node.js and Express.js. It also uses PostgreSQL as its database.  
+Following are the steps to set up the environment. 
+Install Node.js and NPM.  
+Create a PostgreSQL database and obtain the connection URL.  
+Create an .env file in the project root directory to store the environment variable, and the port number. 
