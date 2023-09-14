@@ -16,3 +16,17 @@ Following this, another request is dispatched to the C_Inventory_Management_ mic
 When an order requires updating, the same method for checking user and product validity is employed as in the order placement process. Subsequently, the product count, which was previously reduced, is restored in the InventoryManagement database. Following the restoration, price calculation, and product quantity deduction are executed using the same method employed during the initial order placement. 
 
 In the event of order cancellation, the order record is deleted, and the number of products in the InventoryManagement database is reduced through an API call to the C_Inventory_Management_ microservice.
+
+## A_User_Management
+### Overview 
+The User Management microservice is responsible for managing user data, including user profiles, authentication, and user-related operations. It provides RESTful API endpoints for creating, retrieving, updating, and deleting user information. 
+### Technologies Used 
+Node.js with Express.js - The server-side runtime environment and web application framework. 
+MongoDB - Document-oriented NoSQL database that allows for the storage of data in JSON-like BSON (Binary JSON) format. 
+### Implementation Details 
+Setting Up the Environment 
+The User Management microservice is built using Node.js and Express.js. It also uses MongoDB as its database.  
+Following are the steps to set up the environment. 
+Install Node.js and NPM.  
+Create a MongoDB database in MongoDB Atlas and obtain the connection URL.  
+Create a .env file in the project root directory to store environment variables like the MongoDB connection URL and the port number. 
