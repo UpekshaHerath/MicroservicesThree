@@ -1,11 +1,12 @@
 # MicroservicesThree
-This is a project which has been created based on microservices architecture with many different technologies. 
+This project has been created based on <b><I>microservices architecture</I></b> with many different technologies. 
 In this application, there are three microservices as follows: 
 1. A_User_Management => MongoDB
 2. B_Order_Placement => MySQL
 3. C_Inventory_Management_ => PostgreSQL
 4. C_Inventory_Management => Firebase
-
+5. API Gateway
+   
 The A_User_Management microservice and C_Inventory_Management_ microservice are not responsible for requesting or retrieving data related to other microservices. Specifically, the A_User_Management microservice utilizes data exclusively from the User database, while the C_Inventory_Management_ microservice utilizes data from the InventoryManagement database. 
 
 The B_Order_Placement microservice, on the other hand, relies on data from both the user database and the inventory management database. Within the B_Order_Placement microservice, multiple API endpoints are present.  
