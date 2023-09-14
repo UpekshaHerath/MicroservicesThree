@@ -60,7 +60,8 @@ router.post("/", async (req, res) => {
     try {
         // check whether this nic is already saved
         const isPresent = await User.find({ Nic: nic });
-        if (isPresent === null) {
+
+        if (isPresent.length === 0) {
             const c1 = await info.save();
             res.json(c1);
         } else {
@@ -80,12 +81,13 @@ router.delete("/", async (req, res) => {
     try {
         const result = await User.deleteMany({ Nic: deleteNic });
         if (result.deletedCount > 0) {
-            res.send(`Deleted customer with NIC: ${deleteNic}`);
+            res.status(200).json({ message: `Deleted customer with NIC: ${deleteNic}`});
         } else {
-            res.send(`Customer with NIC ${deleteNic} not found.`);
+            res.status(200).json({ message: `Customer with NIC ${deleteNic} not found.` });
         }
     } catch (error) {
         res.send("Error");
+        res.status(501).json({ message: "Error while deleting the user" });
     }
 });
 
@@ -105,9 +107,9 @@ router.put("/:Nic", async (req, res) => {
         );
 
         if (updatedUser) {
-            res.json(updatedUser);
+            res.status(200).json(updatedUser);
         } else {
-            res.send(`Customer with NIC ${nicToUpdate} not found.`);
+            res.status(200).json({ message: `User with NIC ${nicToUpdate} not found.` });
         }
     } catch (error) {
         res.send("Error");
